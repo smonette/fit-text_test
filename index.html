@@ -1,0 +1,84 @@
+  <!DOCTYPE html>
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Fit Text</title>
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <html>
+      <body>
+        <style>
+          body {
+            background: yellow;
+          }
+          .container {
+            background: rgba(255,255,255,0.8);
+            max-width:960px;
+            margin: 0 auto;
+            padding: 0 40px;
+          }
+          h2 {
+            text-align: center;
+          }
+        </style>
+        <div class="container">
+          <h2 class="show-title long">The&nbsp;Marriage&nbsp;of&nbsp;Figaro</h2>
+          <h2 class="show-title short">Norma</h2>
+        </div>
+
+
+
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+      <script>
+        /*global jQuery */
+        /*!
+        * FitText.js 1.2
+        *
+        * Copyright 2011, Dave Rupert http://daverupert.com
+        * Released under the WTFPL license
+        * http://sam.zoy.org/wtfpl/
+        *
+        * Date: Thu May 05 14:23:00 2011 -0600
+        */
+
+        (function( $ ){
+
+          $.fn.fitText = function( kompressor, options ) {
+
+            // Setup options
+            var compressor = kompressor || 1,
+                settings = $.extend({
+                  'minFontSize' : Number.NEGATIVE_INFINITY,
+                  'maxFontSize' : Number.POSITIVE_INFINITY
+                }, options);
+
+            return this.each(function(){
+
+              // Store the object
+              var $this = $(this);
+
+              // Resizer() resizes items based on the object width divided by the compressor * 10
+              var resizer = function () {
+                $this.css('font-size', Math.max(Math.min($this.width() / (compressor*10), parseFloat(settings.maxFontSize)), parseFloat(settings.minFontSize)));
+              };
+
+              // Call once to set.
+              resizer();
+
+              // Call on resize. Opera debounces their resize by default.
+              $(window).on('resize.fittext orientationchange.fittext', resizer);
+
+            });
+
+          };
+
+        })( jQuery );
+
+        $(".show-title.long").fitText(1.5), { minFontSize: '40px', maxFontSize: '70px' };
+        $(".show-title.short").fitText(1, { minFontSize: '40px', maxFontSize: '150px' });
+
+      </script>
+
+      </body> 
+</html>
